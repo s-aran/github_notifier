@@ -1,0 +1,10 @@
+version = 1
+
+[github]
+token = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+user = "s-aran"
+repository = "github_notifier"
+
+[slack]
+token = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"     # user token
+channel = "Cxxxxxxxxxx"    # from channel url
