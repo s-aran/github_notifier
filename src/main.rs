@@ -1,14 +1,8 @@
-use std::borrow::Borrow;
 use std::fs;
 use reqwest;
 
 use octocrab::params;
 use serde::{Deserialize, Serialize};
-
-use serenity::all::CreateMessage;
-use serenity::{async_trait, prelude::*};
-use serenity::model::prelude::*;
-use serenity::model::id::ChannelId;
 
 use chrono::TimeDelta;
 
@@ -54,31 +48,6 @@ struct SlackPostMessageBody
 channel: String,
 text: String,
 }
-
-        struct DiscordBot {}
-
-        #[async_trait]
-        impl EventHandler for DiscordBot
-        {
-            async fn message(&self, ctx: Context, msg: Message)
-            {
-                    if let Err(why) = msg.channel_id.say(&ctx.http, "Pong!").await
-                    {
-                        println!("Error sending message: {:?}", why);
-                    }
-            }
-
-            async fn ready(&self, _: Context, ready: Ready)
-            {
-                println!("{} is connected", ready.user.name);
-            }
-        }
-
-// #[derive(Debug,Serialize)]
-// struct SlackGetChannelListBody
-// {
-//     types: Option<String>,
-// }
 
 #[derive(Debug, Deserialize)]
 struct SlackPostMessageResponse
@@ -145,13 +114,6 @@ fn main() {
             .send()
             .await
 
-        // github
-        //     .issues("XAMPPRocky", "octocrab")
-        //     .list()
-        //     .state(params::State::All)
-        //     .per_page(10)
-        //     .send()
-        //     .await
     }) {
         Ok(p) => p,
         Err(e) => {
@@ -206,51 +168,6 @@ fn main() {
 
         let client = reqwest::Client::new();
 
-        // list channels
-        // {
-        //     let url = "https://slack.com/api/conversations.list";
-        //     
-        //     let body = SlackGetChannelListBody{
-        //         types: Some("public_channel,private_channel".to_owned()),
-        //     };
-        //     let response = match rt.block_on(async {client.post(url).header(
-        //         reqwest::header::AUTHORIZATION, format!("Bearer {}", slack_token)).header( reqwest::header::CONTENT_TYPE,"application/json".to_owned()).json(&body
-        //     ).send().await}){
-        //         Ok(r) => r,
-        //         Err(e) => {
-        //             eprintln!("{}", e);
-        //             return;
-        //         }
-        //     };
-
-        //     
-        //     #[derive(Debug, Deserialize)]
-        //     struct SlackChannel {
-        //         id: String,
-        //         name: String,
-        //         is_channel: bool,
-        //     }
-
-        //     #[derive(Debug,Deserialize)]
-        //     struct             SlackGetChannelListResponse {
-        //         ok: bool,
-        //         error: Option<String>,
-        //         channels: Vec<SlackChannel>,
-
-        //     }
-
-        //     println!("{:?}", response);
-        //     let text:SlackGetChannelListResponse = match rt.block_on(async {response.json().await}) {
-        //         Ok(r) => r,
-        //         Err(e) => {
-        //             eprintln!("{}", e);
-        //             return;
-        //         }
-        //     };
-        //     
-        //     println!("{:#?}", text.channels);
-        // }
-
         let body = SlackPostMessageBody{
             channel: channel.to_owned(),
             text: "hello from bot".to_owned(),
@@ -276,29 +193,5 @@ fn main() {
         };
         // println!("{:#?}", post_response);
     }
-
-    // discord
-    {
-
-        let token  = &settings.discord.token;
-        let server_id = &settings.discord.server_id;
-
-        let intents = GatewayIntents::GUILD_MESSAGES | GatewayIntents::MESSAGE_CONTENT| GatewayIntents::DIRECT_MESSAGES;
-
-        // let mut client = Client::builder(token, intents).event_handler(DiscordBot).await.expected("Err creating client");
-
-        // if let Err(why) = client.start().await {
-        //     println!("Client error: {:?}", why);
-        // }
-
-        // let builder = CreateMessage::new().content("hello");
-        // let channel_id = ChannelId(server_id.parse::<u64>().unwrap());
-        //     match rt.block_on(async {channel_id.say(&token, &builder).await}) {
-        //         Ok(_) => println!("Message sent successfully"),
-        //         Err(why) => println!("Error sending message: {:?}", why),
-        //     };
-    }
-
-    // println!("{:#?}", page);
 
 }
