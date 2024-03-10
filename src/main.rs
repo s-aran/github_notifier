@@ -157,5 +157,6 @@ fn main() {
     }
 
     slack::message::send::post(&settings, "test message".to_owned());
+    slack::message::send::post_with_webhook(&settings, "test message".to_owned());
 
 }

@@ -8,4 +8,4 @@ abandoned_days = 90
 
 [slack]
 token = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"     # user token
-channel = "Cxxxxxxxxxx"    # from channel url
+channel = "Cxxxxxxxxxx"    # from channel url or @username

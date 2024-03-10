@@ -4,6 +4,7 @@ use serde::{Serialize, Deserialize};
 pub struct SlackPostMessageBody {
     pub channel: String,
     pub text: String,
+    pub username: Option<String>,
 }
 
 #[derive(Debug, Deserialize)]

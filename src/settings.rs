@@ -28,6 +28,7 @@ pub struct Github {
 pub struct Slack {
     pub token: String,
     pub channel: String,
+    pub webhook_url: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
