@@ -75,7 +75,6 @@ fn main() {
         }
     };
 
-    let abandoned_days = 120;
     let abandoned_pulls: Vec<&PullRequest> = page.items.iter().filter(|p| {
         let created_at = match &p.created_at {
             Some(t) => t,
@@ -84,7 +83,7 @@ fn main() {
         let delta = chrono::Utc::now() - created_at;
         let delta_days = delta.num_days();
         println!("{:?}", &delta_days);
-        delta_days > abandoned_days
+        delta_days > (settings.github.abandoned_days as i64)
     }).collect();
 
     println!("--------------------------------------------------------------------------------");

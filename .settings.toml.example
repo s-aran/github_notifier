@@ -4,6 +4,7 @@ version = 1
 token = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
 user = "s-aran"
 repository = "github_notifier"
+abandoned_days = 90
 
 [slack]
 token = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"     # user token
