@@ -6,6 +6,7 @@ use settings::Settings;
 use crate::github::pulls;
 
 mod github;
+mod message_builder;
 mod slack;
 
 fn main() {
@@ -94,7 +95,8 @@ fn main() {
         println!("----------------------------------------------------------------------------------------------------");
     }
 
-    let wait_for_review_pulls = pulls::filter_wait_for_review(&abandoned_pulls);
+    let wait_for_review_pulls: Vec<&pulls::AbandonedPullRequest> =
+        pulls::filter_wait_for_review(&abandoned_pulls);
     println!("wait for review:");
     println!("====================================================================================================");
     for r in wait_for_review_pulls.iter() {
@@ -104,40 +106,18 @@ fn main() {
         println!("--------------------------------------------------");
     }
 
-    let wait_for_merge = pulls::filter_wait_for_merge(&abandoned_pulls);
+    let wait_for_merge_pulls: Vec<&pulls::AbandonedPullRequest> =
+        pulls::filter_wait_for_merge(&abandoned_pulls);
     println!("wait for merge:");
     println!("====================================================================================================");
-    for r in wait_for_merge.iter() {
+    for r in wait_for_merge_pulls.iter() {
         println!("{:?}", r.pull.pull.number);
         println!("{:?}", r.pull.pull.requested_reviewers);
         println!("{:?}", r.pull.pull.review_comments);
         println!("--------------------------------------------------");
     }
 
-    {
-        let mut message_list: Vec<String> = Vec::new();
-        for r in wait_for_review_pulls.iter() {
-            let p = &r.pull.pull;
-            let num = p.number;
-            let links = p.links.unwrap();
-            let title = p
-                .title
-                .clone()
-                .unwrap_or(format!("(no title, #{}", num));
-            let pr_url = match links.pull_request_link {
-                Some(u) => Into::<String>::into(u.href),
-                None => "".to_owned(),
-            };
-            message_list.push(format!("[{}]({})", title, pr_url));
-        }
-
-        let pulls = message_list.join("\n");
-        let message = &settings
-            .slack
-            .wait_for_review_message
-            .replace("{pulls}", &pulls);
-
-        slack::message::send::post(&settings, message);
-    }
+    let message = message_builder::build(&settings, &wait_for_review_pulls, &wait_for_merge_pulls);
+    slack::message::send::post(&settings, message);
     // slack::message::send::post_with_webhook(&settings, "test message".to_owned());
 }

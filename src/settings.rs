@@ -29,8 +29,12 @@ pub struct Slack {
     pub token: String,
     pub channel: String,
     pub webhook_url: Option<String>,
+    #[serde(default = "bool::default")]
+    pub enable_markdown: bool,
     pub wait_for_review_message: String,
+    pub wait_for_review_message_format: String,
     pub wait_for_merge_message: String,
+    pub wait_for_merge_message_format: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -57,4 +61,3 @@ impl Settings {
         SETTINGS_VERSION
     }
 }
-

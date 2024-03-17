@@ -9,6 +9,7 @@ use crate::settings::Github;
 #[derive(Debug, Clone)]
 pub struct PullRequestWithMergeable {
     pub pull: PullRequest,
+    pub url: String,
 }
 
 #[derive(Debug, Clone)]
@@ -57,7 +58,13 @@ pub fn get_pull(github_settings: &Github, number: u64) -> PullRequestWithMergeab
             .get(number)
             .await
     }) {
-        Ok(r) => PullRequestWithMergeable { pull: r },
+        Ok(r) => PullRequestWithMergeable {
+            url: format!(
+                "https://github.com/{}/{}/pull/{}",
+                github_settings.user, github_settings.repository, r.number,
+            ),
+            pull: r,
+        },
         Err(e) => {
             eprintln!("Error: {:?}", e);
             panic!();
@@ -71,7 +78,9 @@ pub fn list_pulls_with_mergeable(
 ) -> Vec<PullRequestWithMergeable> {
     pulls
         .iter()
-        .map(|p| get_pull(&github_settings, p.number))
+        .map(|p| {
+            return get_pull(&github_settings, p.number);
+        })
         .collect()
 }
 
