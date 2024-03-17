@@ -1,5 +1,4 @@
 use reqwest;
-use serde::Serialize;
 use tokio::runtime::Runtime;
 
 use crate::slack::message::model::*;
@@ -8,7 +7,6 @@ use crate::Settings;
 pub fn post(settings: &Settings, message: impl Into<String>) {
     let slack_token = &settings.slack.token;
     let channel = &settings.slack.channel;
-    let mrkdwn = &settings.slack.enable_markdown;
 
     let client = reqwest::Client::new();
 
