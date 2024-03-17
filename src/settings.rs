@@ -1,4 +1,4 @@
-use serde::{Serialize, Deserialize};
+use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 
 pub const SETTINGS_VERSION: u8 = 1;
@@ -29,6 +29,8 @@ pub struct Slack {
     pub token: String,
     pub channel: String,
     pub webhook_url: Option<String>,
+    pub wait_for_review_message: String,
+    pub wait_for_merge_message: String,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -44,10 +46,10 @@ pub struct Settings {
 
     #[serde(default = "AccountMapping::default")]
     pub account_mapping: AccountMapping,
-    
+
     pub github: Github,
     pub slack: Slack,
-    pub discord: Discord,
+    pub discord: Option<Discord>,
 }
 
 impl Settings {
