@@ -9,13 +9,13 @@ abandoned_days = 90
 [slack]
 token = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"     # user token
 channel = "Cxxxxxxxxxx"    # from channel url or @username
-wait_for_review_pulls_message = """
+wait_for_review_message = """
 There is a pull request waiting for review, please check.
-{pulls}
+{{pulls}}
 """
+wait_for_review_message_format = "`{{pull_title}}`: {{pull_url}} (+{{abandoned_days}}days)"
 wait_for_merge_message = """
 There is a pull request waiting for merge, please check.
-{pulls}
+{{pulls}}
 """
-
-
+wait_for_merge_message_format = "`{{pull_title}}`: {{pull_url}} (+{{abandoned_days}}days)"
